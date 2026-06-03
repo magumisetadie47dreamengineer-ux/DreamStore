@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import ProductCard from "./ProductCard";
 
@@ -11,10 +11,29 @@ const SORT_OPTIONS = [
   { value: "name", label: "Name A–Z" },
 ];
 
-export default function ProductShop({ products, categories }) {
+export default function ProductShop({ products: initialProducts, categories: initialCategories }) {
+  const [products, setProducts] = useState(initialProducts ?? []);
+  const [categories, setCategories] = useState(initialCategories ?? []);
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+
+  useEffect(() => {
+    setProducts(initialProducts ?? []);
+    setCategories(initialCategories ?? []);
+  }, [initialProducts, initialCategories]);
+
+  useEffect(() => {
+    if (products.length > 0) return;
+    fetch("/api/products")
+      .then((res) => (res.ok ? res.json() : []))
+      .then((data) => {
+        if (!Array.isArray(data) || data.length === 0) return;
+        setProducts(data);
+        setCategories([...new Set(data.map((p) => p.category))]);
+      })
+      .catch(() => {});
+  }, [products.length]);
   const q = (searchParams.get("q") ?? "").trim().toLowerCase();
   const category = searchParams.get("category") ?? "";
   const sort = searchParams.get("sort") ?? "featured";

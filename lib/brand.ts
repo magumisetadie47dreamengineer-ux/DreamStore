@@ -1,6 +1,6 @@
 export const brand = {
-  name: "Dream Tech Store",
-  shortName: "Dream Tech",
+  name: "DreamStore",
+  shortName: "DreamStore",
   dreamChaser: "Dream Chaser",
   mantra: "Chase the vision. Build the future.",
   mantraSub:

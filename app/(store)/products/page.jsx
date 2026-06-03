@@ -2,16 +2,12 @@ import { Suspense } from "react";
 import ProductShop from "@/components/store/ProductShop";
 import SearchBar from "@/components/store/SearchBar";
 import { brand } from "@/lib/brand";
+import { getProductsServer } from "@/lib/products/getProductsServer";
 
-async function getProducts() {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-  const res = await fetch(`${baseUrl}/api/products`, { cache: "no-store" });
-  if (!res.ok) return [];
-  return res.json();
-}
+export const dynamic = "force-dynamic";
 
 export default async function ProductsPage() {
-  const products = await getProducts();
+  const products = await getProductsServer();
   const categories = [...new Set(products.map((p) => p.category))];
 
   return (

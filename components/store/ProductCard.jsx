@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
+import ProductImage from "./ProductImage";
 import { formatPrice } from "@/lib/formatPrice";
 import AddToCartButton from "./AddToCartButton";
 
@@ -11,7 +11,7 @@ export default function ProductCard({ product }) {
         className="group block"
       >
         <figure className="product-photo relative aspect-[4/3] bg-base-300 overflow-hidden">
-          <Image
+          <ProductImage
             src={product.image}
             alt={product.name}
             fill

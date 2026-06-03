@@ -13,9 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Dream Tech Store | Chase the vision. Build the future.",
+  title: "DreamStore | Chase the vision. Build the future.",
   description:
-    "Dream Tech Store for dream chasers — laptops, gadgets, and gear to build your setup.",
+    "DreamStore for dream chasers — laptops, gadgets, and gear to build your setup.",
 };
 
 export default function RootLayout({

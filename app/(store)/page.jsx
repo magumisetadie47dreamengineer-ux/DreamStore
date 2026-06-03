@@ -4,21 +4,14 @@ import HeroProductBackdrop from "@/components/store/HeroProductBackdrop";
 import ProductCarousel from "@/components/store/ProductCarousel";
 import ProductCard from "@/components/store/ProductCard";
 import { brand } from "@/lib/brand";
+import { getProductsServer } from "@/lib/products/getProductsServer";
 
-async function getProducts(featuredOnly = false) {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-  const url = featuredOnly
-    ? `${baseUrl}/api/products?featured=true`
-    : `${baseUrl}/api/products`;
-  const res = await fetch(url, { cache: "no-store" });
-  if (!res.ok) return [];
-  return res.json();
-}
+export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
   const [featured, allProducts] = await Promise.all([
-    getProducts(true),
-    getProducts(false),
+    getProductsServer({ featured: true }),
+    getProductsServer(),
   ]);
 
   const backdropProducts =

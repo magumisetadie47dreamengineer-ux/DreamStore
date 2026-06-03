@@ -1,19 +1,15 @@
-import Image from "next/image";
 import Link from "next/link";
 import AddToCartButton from "@/components/store/AddToCartButton";
+import ProductImage from "@/components/store/ProductImage";
 import { brand } from "@/lib/brand";
 import { formatPrice } from "@/lib/formatPrice";
+import { getProductByIdServer } from "@/lib/products/getProductsServer";
 
-async function getProduct(id) {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-  const res = await fetch(`${baseUrl}/api/products/${id}`, { cache: "no-store" });
-  if (!res.ok) return null;
-  return res.json();
-}
+export const dynamic = "force-dynamic";
 
 export default async function ProductDetailPage({ params }) {
   const { id } = await params;
-  const product = await getProduct(id);
+  const product = await getProductByIdServer(id);
 
   if (!product) {
     return (
@@ -37,7 +33,7 @@ export default async function ProductDetailPage({ params }) {
 
       <div className="mt-8 grid gap-10 lg:grid-cols-2">
         <div className="product-photo relative aspect-square overflow-hidden rounded-sm border border-base-content/10 bg-base-300">
-          <Image
+          <ProductImage
             src={product.image}
             alt={product.name}
             fill

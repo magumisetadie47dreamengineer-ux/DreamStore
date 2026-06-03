@@ -1,5 +1,5 @@
 {
-  "name": "database",
+  "name": "dreamstore",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "seed": "npx tsx scripts/seed.ts",
-    "promote-admin": "npx tsx scripts/promote-admin.ts"
+    "promote-admin": "npx tsx scripts/promote-admin.ts",
+    "ensure-public": "npx vercel project protection disable dreamstore --sso"
   },
   "dependencies": {
     "@stripe/stripe-js": "^9.7.0",

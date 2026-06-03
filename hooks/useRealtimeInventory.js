@@ -1,16 +1,23 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { apiFetch } from "@/lib/apiClient";
 import { useAuthStore } from "@/store/authStore";
 
-export function useRealtimeInventory(branchId) {
+/** Polling interval — avoids long-lived SSE that exhausts Vercel + MongoDB on Hobby. */
+const POLL_MS = 8000;
+
+/**
+ * @param {string | undefined} branchId
+ * @param {{ enabled?: boolean }} [options] — set enabled false when tab is hidden
+ */
+export function useRealtimeInventory(branchId, options = {}) {
+  const { enabled = true } = options;
   const [rows, setRows] = useState([]);
   const [updatedAt, setUpdatedAt] = useState(null);
   const [loading, setLoading] = useState(true);
   const [live, setLive] = useState(false);
   const userId = useAuthStore((s) => s.user?.id);
-  const eventSourceRef = useRef(null);
 
   const applyPayload = useCallback((data) => {
     if (data?.rows) {
@@ -29,56 +36,38 @@ export function useRealtimeInventory(branchId) {
       applyPayload(await res.json());
     } else {
       setLoading(false);
+      setLive(false);
     }
   }, [branchId, applyPayload]);
 
   useEffect(() => {
-    if (!userId) return;
+    if (!userId || !enabled) {
+      setLive(false);
+      return;
+    }
 
     setLoading(true);
     setLive(false);
 
-    if (eventSourceRef.current) {
-      eventSourceRef.current.close();
-      eventSourceRef.current = null;
-    }
-
-    const qs = new URLSearchParams({ userId });
-    if (branchId) qs.set("branchId", branchId);
-    const source = new EventSource(`/api/inventory/stream?${qs.toString()}`);
-
-    source.onmessage = (event) => {
-      try {
-        const data = JSON.parse(event.data);
-        if (!data.error) {
-          applyPayload(data);
-        }
-      } catch {
-        /* ignore malformed events */
-      }
+    const runIfVisible = () => {
+      if (typeof document !== "undefined" && document.hidden) return;
+      fetchInventory();
     };
 
-    source.onerror = () => {
-      setLive(false);
-      source.close();
-      eventSourceRef.current = null;
-    };
+    runIfVisible();
 
-    eventSourceRef.current = source;
+    const interval = setInterval(runIfVisible, POLL_MS);
+
+    const onVisibility = () => {
+      if (!document.hidden) fetchInventory();
+    };
+    document.addEventListener("visibilitychange", onVisibility);
 
     return () => {
-      source.close();
-      eventSourceRef.current = null;
+      clearInterval(interval);
+      document.removeEventListener("visibilitychange", onVisibility);
     };
-  }, [branchId, userId, applyPayload]);
-
-  useEffect(() => {
-    if (!live && userId) {
-      fetchInventory();
-      const fallback = setInterval(fetchInventory, 5000);
-      return () => clearInterval(fallback);
-    }
-  }, [live, userId, fetchInventory]);
+  }, [branchId, userId, enabled, fetchInventory]);
 
   return { rows, updatedAt, loading, live, refresh: fetchInventory };
 }

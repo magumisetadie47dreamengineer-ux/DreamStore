@@ -35,7 +35,12 @@ function isSrvDnsError(error: unknown): boolean {
 async function connectMongoose() {
   dns.setServers(["8.8.8.8", "8.8.4.4", "1.1.1.1"]);
 
-  const options = { serverSelectionTimeoutMS: 15000 };
+  // Small pool per serverless instance — many devices/tabs must not exhaust Atlas.
+  const options = {
+    serverSelectionTimeoutMS: 15000,
+    maxPoolSize: 5,
+    minPoolSize: 0,
+  };
 
   try {
     return await mongoose.connect(uri, options);

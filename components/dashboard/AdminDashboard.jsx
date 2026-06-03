@@ -44,7 +44,9 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     if (tab !== "orders") return;
-    const interval = setInterval(load, 8000);
+    const interval = setInterval(() => {
+      if (!document.hidden) load();
+    }, 8000);
     const onFocus = () => load();
     window.addEventListener("focus", onFocus);
     return () => {

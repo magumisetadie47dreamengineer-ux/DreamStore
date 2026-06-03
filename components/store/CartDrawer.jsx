@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import ProductImage from "./ProductImage";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { formatPrice } from "@/lib/formatPrice";
@@ -112,7 +112,7 @@ export default function CartDrawer() {
                     onClick={closeCartDrawer}
                     className="product-photo relative h-16 w-16 shrink-0 overflow-hidden rounded-sm bg-base-300"
                   >
-                    <Image
+                    <ProductImage
                       src={item.image}
                       alt={item.name}
                       fill

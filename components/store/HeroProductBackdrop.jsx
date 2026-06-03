@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import ProductImage from "./ProductImage";
 import { useCallback, useEffect, useState } from "react";
 
 const ENTER_DIRS = ["left", "right", "top", "bottom", "tl", "br"];
@@ -49,7 +49,7 @@ export default function HeroProductBackdrop({ products }) {
         className="product-photo pointer-events-none absolute inset-0 overflow-hidden"
         aria-hidden
       >
-        <Image
+        <ProductImage
           src={products[0].image}
           alt=""
           fill
@@ -86,7 +86,7 @@ export default function HeroProductBackdrop({ products }) {
               className={`product-photo absolute inset-0 ${animClass}`}
               style={{ zIndex: isActive ? 2 : 1 }}
             >
-              <Image
+              <ProductImage
                 src={p.image}
                 alt=""
                 fill

@@ -62,7 +62,8 @@ export default function AccountsDashboard() {
   const [preStockMsg, setPreStockMsg] = useState("");
 
   const { rows, updatedAt, loading, live, refresh } = useRealtimeInventory(
-    branchId || undefined
+    branchId || undefined,
+    { enabled: tab === "inventory" }
   );
 
   const productOptions = useMemo(

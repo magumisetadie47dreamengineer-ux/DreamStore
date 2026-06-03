@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
+import ProductImage from "@/components/store/ProductImage";
 import { useEffect, useState } from "react";
 import { formatPrice } from "@/lib/formatPrice";
 import {
@@ -77,12 +77,11 @@ export default function CartPage() {
                   href={`/products/${item.productId}`}
                   className="product-photo relative h-28 w-28 shrink-0 overflow-hidden rounded-sm bg-base-300"
                 >
-                  <Image
+                  <ProductImage
                     src={item.image}
                     alt={item.name}
                     fill
                     className="object-cover"
-                    sizes="112px"
                   />
                 </Link>
                 <div className="flex min-w-0 flex-1 flex-col justify-between gap-3">

@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
+import ProductImage from "./ProductImage";
 import { useEffect, useState } from "react";
 import { formatPrice } from "@/lib/formatPrice";
 import CartIcon from "./icons/CartIcon";
@@ -41,7 +41,7 @@ export default function ProductCarousel({ products }) {
                 }}
                 aria-hidden={i !== active}
               >
-                <Image
+                <ProductImage
                   src={p.image}
                   alt={p.name}
                   fill

@@ -12,14 +12,22 @@ export async function GET(request) {
   try {
     await dbConnect();
 
-    await syncSeedProducts();
+    try {
+      await syncSeedProducts();
+    } catch (syncErr) {
+      console.error("syncSeedProducts:", syncErr);
+    }
 
-    const branch = await ensureDefaultBranch();
-    const invCount = await BranchInventory.countDocuments({
-      branchId: branch._id,
-    });
-    if (invCount === 0) {
-      await seedBranchInventoryFromProducts(String(branch._id));
+    try {
+      const branch = await ensureDefaultBranch();
+      const invCount = await BranchInventory.countDocuments({
+        branchId: branch._id,
+      });
+      if (invCount === 0) {
+        await seedBranchInventoryFromProducts(String(branch._id));
+      }
+    } catch (branchErr) {
+      console.error("Branch inventory seed:", branchErr);
     }
 
     const { searchParams } = new URL(request.url);

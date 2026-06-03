@@ -23,10 +23,10 @@ async function main() {
 
   await dbConnect();
 
-  const inserted = await syncSeedProducts();
+  const result = await syncSeedProducts();
   const total = await Product.countDocuments();
   console.log(
-    `Catalog sync done: ${inserted} new product(s) added, ${total} total in AUTHTUTORIAL.products`
+    `Catalog sync done: ${result.inserted} new, ${result.imagesUpdated} updated, ${total} total products`
   );
 }
 

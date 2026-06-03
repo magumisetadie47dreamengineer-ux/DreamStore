@@ -16,6 +16,7 @@ async function connectClient() {
   const resolvedUri = await resolveMongoUri(uri);
   const client = new MongoClient(resolvedUri, {
     serverSelectionTimeoutMS: 15000,
+    maxPoolSize: 5,
   });
   return client.connect();
 }
