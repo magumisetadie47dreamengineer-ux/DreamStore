@@ -15,14 +15,23 @@ export default function ProductImage({
   sizes: _sizes,
   ...rest
 }) {
-  const pick = src?.startsWith("http") ? src : PRODUCT_IMAGE_FALLBACK;
+  const pick =
+    src?.startsWith("http") || src?.startsWith("/")
+      ? src
+      : PRODUCT_IMAGE_FALLBACK;
   const [imgSrc, setImgSrc] = useState(pick);
 
   useEffect(() => {
-    setImgSrc(src?.startsWith("http") ? src : PRODUCT_IMAGE_FALLBACK);
+    setImgSrc(
+      src?.startsWith("http") || src?.startsWith("/")
+        ? src
+        : PRODUCT_IMAGE_FALLBACK
+    );
   }, [src]);
 
-  const fillClass = fill ? "absolute inset-0 h-full w-full object-cover" : "";
+  const fillClass = fill
+    ? "absolute inset-0 h-full w-full object-cover object-center"
+    : "";
 
   return (
     <img

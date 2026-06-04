@@ -1,5 +1,6 @@
 "use client";
 
+import BrandLogo from "@/components/BrandLogo";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -42,7 +43,11 @@ export default function DashboardShell({ title, subtitle, children, allowedRoles
     <div className="min-h-screen bg-base-100">
       <header className="border-b border-base-content/10 bg-base-200 px-4 py-4">
         <div className="mx-auto max-w-7xl flex flex-wrap items-center justify-between gap-4">
-          <div>
+          <div className="flex items-center gap-4">
+            <Link href="/" aria-label="Back to store">
+              <BrandLogo variant="icon" size="sm" />
+            </Link>
+            <div>
             <p className="text-[10px] font-mono uppercase tracking-widest text-primary">
               {brand.name} · {user.role}
             </p>
@@ -50,6 +55,7 @@ export default function DashboardShell({ title, subtitle, children, allowedRoles
             {subtitle && (
               <p className="text-sm text-base-content/50 mt-1">{subtitle}</p>
             )}
+            </div>
           </div>
           <nav className="flex flex-wrap gap-2">
             <Link href="/" className="btn btn-ghost btn-sm">

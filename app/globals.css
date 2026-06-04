@@ -30,9 +30,16 @@
   --radius-box: 0.5rem;
 }
 
-/* Product photos always render in true color */
+/* Product photos — cover for realistic catalog imagery */
 .product-photo img {
   filter: none;
+  object-fit: cover;
+  object-position: center;
+}
+
+.product-photo--ambient img {
+  object-fit: cover;
+  padding: 0;
 }
 
 .auth-form .input {

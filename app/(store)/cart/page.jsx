@@ -81,7 +81,6 @@ export default function CartPage() {
                     src={item.image}
                     alt={item.name}
                     fill
-                    className="object-cover"
                   />
                 </Link>
                 <div className="flex min-w-0 flex-1 flex-col justify-between gap-3">

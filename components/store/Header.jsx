@@ -1,10 +1,10 @@
 "use client";
 
+import BrandLogo from "@/components/BrandLogo";
 import Link from "next/link";
 import { Suspense, useEffect, useState } from "react";
 import { dashboardPathForRole } from "@/lib/auth/redirectByRole";
 import { signOut } from "@/lib/auth/signOut";
-import { brand } from "@/lib/brand";
 import { isStaffRole } from "@/lib/roles";
 import { useAuthStore } from "@/store/authStore";
 import { useRouter } from "next/navigation";
@@ -43,17 +43,7 @@ export default function Header() {
           href="/"
           className="btn btn-ghost normal-case gap-2 px-2 hover:bg-base-200"
         >
-          <span className="flex h-9 w-9 items-center justify-center rounded-sm border border-primary bg-base-100 font-mono text-xs font-bold text-primary">
-            DC
-          </span>
-          <div className="text-left hidden sm:block">
-            <p className="text-base font-bold leading-tight tracking-tight">
-              {brand.name}
-            </p>
-            <p className="text-[10px] uppercase tracking-[0.2em] text-primary/90">
-              {brand.dreamChaser}
-            </p>
-          </div>
+          <BrandLogo variant="full" size="sm" priority />
         </Link>
       </div>
 

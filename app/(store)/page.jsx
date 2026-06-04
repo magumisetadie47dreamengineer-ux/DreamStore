@@ -1,4 +1,5 @@
 import Link from "next/link";
+import BrandLogo from "@/components/BrandLogo";
 import ContactSection from "@/components/store/ContactSection";
 import HeroProductBackdrop from "@/components/store/HeroProductBackdrop";
 import ProductCarousel from "@/components/store/ProductCarousel";
@@ -9,13 +10,9 @@ import { getProductsServer } from "@/lib/products/getProductsServer";
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  const [featured, allProducts] = await Promise.all([
-    getProductsServer({ featured: true }),
-    getProductsServer(),
-  ]);
-
-  const backdropProducts =
-    featured.length > 0 ? featured : allProducts;
+  const allProducts = await getProductsServer();
+  const featured = allProducts.filter((p) => p.featured);
+  const backdropProducts = featured.length > 0 ? featured : allProducts;
 
   return (
     <div>
@@ -23,12 +20,7 @@ export default async function HomePage() {
         <HeroProductBackdrop products={backdropProducts} />
         <div className="hero relative z-10 min-h-[58vh]">
           <div className="hero-content flex-col text-center py-16 px-4 max-w-4xl">
-            <p className="text-[10px] sm:text-xs font-mono uppercase tracking-[0.35em] text-base-content/50 mb-3">
-              {brand.dreamChaser} · Tech
-            </p>
-            <span className="badge badge-outline border-primary/50 text-primary rounded-sm font-mono text-xs mb-4">
-              {brand.name}
-            </span>
+            <BrandLogo variant="full" size="lg" className="mb-6" priority />
             <p className="text-lg sm:text-xl font-medium italic text-primary mantra-glow max-w-2xl">
               &ldquo;{brand.mantra}&rdquo;
             </p>

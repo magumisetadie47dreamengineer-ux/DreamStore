@@ -29,12 +29,17 @@ export function useRealtimeInventory(branchId, options = {}) {
   }, []);
 
   const fetchInventory = useCallback(async () => {
-    const qs = new URLSearchParams();
-    if (branchId) qs.set("branchId", branchId);
-    const res = await apiFetch(`/api/inventory?${qs.toString()}`);
-    if (res.ok) {
-      applyPayload(await res.json());
-    } else {
+    try {
+      const qs = new URLSearchParams();
+      if (branchId) qs.set("branchId", branchId);
+      const res = await apiFetch(`/api/inventory?${qs.toString()}`);
+      if (res.ok) {
+        applyPayload(await res.json());
+      } else {
+        setLoading(false);
+        setLive(false);
+      }
+    } catch {
       setLoading(false);
       setLive(false);
     }

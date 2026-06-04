@@ -16,6 +16,10 @@ export const metadata: Metadata = {
   title: "DreamStore | Chase the vision. Build the future.",
   description:
     "DreamStore for dream chasers — laptops, gadgets, and gear to build your setup.",
+  icons: {
+    icon: "/dreamchaser-icon.png",
+    apple: "/dreamchaser-icon.png",
+  },
 };
 
 export default function RootLayout({

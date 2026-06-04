@@ -37,7 +37,7 @@ export default async function ProductDetailPage({ params }) {
             src={product.image}
             alt={product.name}
             fill
-            className="object-cover"
+            className="transition-transform duration-500"
             priority
             sizes="(max-width: 1024px) 100vw, 50vw"
           />

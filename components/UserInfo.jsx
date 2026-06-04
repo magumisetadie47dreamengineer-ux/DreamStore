@@ -1,5 +1,6 @@
 "use client";
 
+import BrandLogo from "@/components/BrandLogo";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
@@ -83,9 +84,7 @@ export default function UserInfo() {
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-12 sm:px-6">
-      <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-primary">
-        {brand.dreamChaser}
-      </p>
+      <BrandLogo variant="full" size="md" className="mb-4" />
       <h1 className="text-3xl font-bold tracking-tight">My account</h1>
       <p className="mt-1 text-base-content/50">
         {brand.name} · Buyer

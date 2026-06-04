@@ -1,12 +1,12 @@
-import { productImageUrl } from "./productImage";
+import { productImageUrl } from "./productImage.server";
 
-const seedCatalog = [
-  // Laptops ($100–$300)
+export const seedCatalog = [
+  // Laptops — Zimbabwe retail USD
   {
     name: "HP 14\" Laptop — Celeron N4020, 4GB RAM, 64GB eMMC",
     description:
       "Budget HP 14-inch notebook. Intel Celeron N4020, 4GB RAM, 64GB storage, Windows 11 Home.",
-    price: 120,
+    price: 195,
     category: "Laptops",
     stock: 18,
     featured: true,
@@ -15,7 +15,7 @@ const seedCatalog = [
     name: "Asus VivoBook 14 — Pentium Silver, 4GB RAM, 128GB SSD",
     description:
       "Light everyday laptop. Intel Pentium Silver N5030, 4GB RAM, 128GB SSD, 14\" HD display.",
-    price: 145,
+    price: 225,
     category: "Laptops",
     stock: 14,
     featured: false,
@@ -24,7 +24,7 @@ const seedCatalog = [
     name: "Lenovo IdeaPad 15 — Ryzen 3, 8GB RAM, 256GB SSD",
     description:
       "Reliable student laptop. AMD Ryzen 3 7320U, 8GB RAM, 256GB SSD, 15.6\" Full HD screen.",
-    price: 185,
+    price: 295,
     category: "Laptops",
     stock: 12,
     featured: true,
@@ -33,7 +33,7 @@ const seedCatalog = [
     name: "Acer Aspire 3 — Core i3, 8GB RAM, 128GB SSD",
     description:
       "Solid daily driver. Intel Core i3-1115G4, 8GB RAM, 128GB SSD, 15.6\" display.",
-    price: 220,
+    price: 340,
     category: "Laptops",
     stock: 10,
     featured: false,
@@ -42,7 +42,7 @@ const seedCatalog = [
     name: "Dell Latitude Refurb — Core i5, 8GB RAM, 256GB SSD",
     description:
       "Certified refurbished business laptop. Intel Core i5, 8GB RAM, 256GB SSD, 14\" screen.",
-    price: 275,
+    price: 420,
     category: "Laptops",
     stock: 8,
     featured: true,
@@ -51,17 +51,17 @@ const seedCatalog = [
     name: "Chuwi HeroBook Pro — N100, 8GB RAM, 256GB SSD",
     description:
       "Affordable ultrabook. Intel N100, 8GB RAM, 256GB SSD, 14.1\" Full HD, lightweight build.",
-    price: 299,
+    price: 450,
     category: "Laptops",
     stock: 6,
     featured: false,
   },
 
-  // Smartphones — Samsung ($100–$3000)
+  // Smartphones — Samsung (Zimbabwe retail USD)
   {
     name: "Samsung Galaxy A05 — 4GB RAM, 64GB",
     description: "Entry Samsung smartphone. 6.7\" display, 50MP camera, 5000mAh battery.",
-    price: 100,
+    price: 95,
     category: "Smartphones",
     stock: 40,
     featured: false,
@@ -69,7 +69,7 @@ const seedCatalog = [
   {
     name: "Samsung Galaxy A15 — 6GB RAM, 128GB",
     description: "Budget Galaxy with AMOLED screen, 50MP triple camera, and fast charging.",
-    price: 165,
+    price: 175,
     category: "Smartphones",
     stock: 35,
     featured: true,
@@ -77,7 +77,7 @@ const seedCatalog = [
   {
     name: "Samsung Galaxy A25 — 8GB RAM, 128GB",
     description: "Mid-range Galaxy. Super AMOLED 6.5\", 50MP OIS camera, 5000mAh battery.",
-    price: 220,
+    price: 250,
     category: "Smartphones",
     stock: 28,
     featured: false,
@@ -85,7 +85,7 @@ const seedCatalog = [
   {
     name: "Samsung Galaxy A55 — 8GB RAM, 256GB",
     description: "Premium mid-range. Exynos chip, 6.6\" AMOLED 120Hz, IP67 water resistance.",
-    price: 380,
+    price: 420,
     category: "Smartphones",
     stock: 22,
     featured: true,
@@ -93,7 +93,7 @@ const seedCatalog = [
   {
     name: "Samsung Galaxy S23 — 8GB RAM, 256GB",
     description: "Flagship Samsung. Snapdragon chip, 6.1\" Dynamic AMOLED, triple 50MP cameras.",
-    price: 650,
+    price: 720,
     category: "Smartphones",
     stock: 15,
     featured: false,
@@ -101,7 +101,7 @@ const seedCatalog = [
   {
     name: "Samsung Galaxy S24 — 8GB RAM, 256GB",
     description: "Latest Galaxy S series. AI features, 6.2\" AMOLED 120Hz, all-day battery.",
-    price: 850,
+    price: 920,
     category: "Smartphones",
     stock: 12,
     featured: true,
@@ -109,7 +109,7 @@ const seedCatalog = [
   {
     name: "Samsung Galaxy S24 Ultra — 12GB RAM, 512GB",
     description: "Top-tier Samsung. S Pen built-in, 200MP camera, titanium frame, 6.8\" display.",
-    price: 1250,
+    price: 1380,
     category: "Smartphones",
     stock: 8,
     featured: true,
@@ -117,17 +117,17 @@ const seedCatalog = [
   {
     name: "Samsung Galaxy Z Flip 5 — 8GB RAM, 256GB",
     description: "Foldable flip phone. Compact design, FlexCam, 6.7\" inner AMOLED display.",
-    price: 980,
+    price: 1050,
     category: "Smartphones",
     stock: 6,
     featured: false,
   },
 
-  // Smartphones — iPhone ($100–$3000)
+  // Smartphones — iPhone (Zimbabwe retail USD)
   {
     name: "iPhone SE (2022) — 64GB",
     description: "Compact Apple phone. A15 Bionic chip, 4.7\" Retina display, Touch ID.",
-    price: 180,
+    price: 220,
     category: "Smartphones",
     stock: 20,
     featured: false,
@@ -135,7 +135,7 @@ const seedCatalog = [
   {
     name: "iPhone 12 — 64GB",
     description: "Classic iPhone design. A14 Bionic, 6.1\" Super Retina XDR, dual 12MP cameras.",
-    price: 320,
+    price: 380,
     category: "Smartphones",
     stock: 18,
     featured: false,
@@ -143,7 +143,7 @@ const seedCatalog = [
   {
     name: "iPhone 13 — 128GB",
     description: "Popular iPhone. A15 Bionic, 6.1\" display, improved battery and cameras.",
-    price: 450,
+    price: 520,
     category: "Smartphones",
     stock: 16,
     featured: true,
@@ -151,7 +151,7 @@ const seedCatalog = [
   {
     name: "iPhone 14 — 128GB",
     description: "Reliable iPhone. A15 Bionic, 6.1\" display, crash detection, great cameras.",
-    price: 620,
+    price: 700,
     category: "Smartphones",
     stock: 14,
     featured: false,
@@ -159,7 +159,7 @@ const seedCatalog = [
   {
     name: "iPhone 15 — 128GB",
     description: "USB-C iPhone. A16 Bionic, 6.1\" display, 48MP main camera, Dynamic Island.",
-    price: 780,
+    price: 880,
     category: "Smartphones",
     stock: 12,
     featured: true,
@@ -167,7 +167,7 @@ const seedCatalog = [
   {
     name: "iPhone 15 Pro — 256GB",
     description: "Pro titanium iPhone. A17 Pro chip, Action Button, 48MP Pro camera system.",
-    price: 1100,
+    price: 1250,
     category: "Smartphones",
     stock: 10,
     featured: false,
@@ -175,7 +175,7 @@ const seedCatalog = [
   {
     name: "iPhone 15 Pro Max — 256GB",
     description: "Large Pro iPhone. 6.7\" display, 5x optical zoom, all-day battery life.",
-    price: 1350,
+    price: 1520,
     category: "Smartphones",
     stock: 8,
     featured: true,
@@ -183,7 +183,7 @@ const seedCatalog = [
   {
     name: "iPhone 16 Pro Max — 512GB",
     description: "Latest flagship iPhone. A18 Pro, 6.9\" display, best-in-class camera and battery.",
-    price: 2800,
+    price: 3200,
     category: "Smartphones",
     stock: 5,
     featured: true,
@@ -193,7 +193,7 @@ const seedCatalog = [
   {
     name: "Oraimo OBS-53 Mini Bluetooth Speaker",
     description: "Pocket-size wireless speaker. 10W output, 12-hour playtime, IPX5 splash proof.",
-    price: 35,
+    price: 42,
     category: "Bluetooth Speakers",
     stock: 60,
     featured: false,
@@ -201,7 +201,7 @@ const seedCatalog = [
   {
     name: "JBL Go 3 Portable Speaker",
     description: "Compact JBL speaker with bold sound, IP67 waterproof, 5-hour battery.",
-    price: 45,
+    price: 55,
     category: "Bluetooth Speakers",
     stock: 45,
     featured: true,
@@ -209,7 +209,7 @@ const seedCatalog = [
   {
     name: "Sony SRS-XB100 Bluetooth Speaker",
     description: "Extra Bass portable speaker. Clear sound, strap loop, up to 16 hours playback.",
-    price: 55,
+    price: 65,
     category: "Bluetooth Speakers",
     stock: 38,
     featured: false,
@@ -217,7 +217,7 @@ const seedCatalog = [
   {
     name: "Anker Soundcore 2 Speaker",
     description: "Best-selling budget speaker. 24-hour battery, IPX7 waterproof, stereo sound.",
-    price: 65,
+    price: 78,
     category: "Bluetooth Speakers",
     stock: 50,
     featured: true,
@@ -225,7 +225,7 @@ const seedCatalog = [
   {
     name: "Tribit StormBox Micro Speaker",
     description: "Tiny rugged speaker. IP67 rated, 8-hour battery, surprisingly loud for its size.",
-    price: 50,
+    price: 60,
     category: "Bluetooth Speakers",
     stock: 42,
     featured: false,
@@ -235,7 +235,7 @@ const seedCatalog = [
   {
     name: "USB-C 20W Wall Charger",
     description: "Fast wall adapter for phones and tablets. Compact plug, universal USB-C port.",
-    price: 12,
+    price: 15,
     category: "Chargers",
     stock: 120,
     featured: false,
@@ -243,7 +243,7 @@ const seedCatalog = [
   {
     name: "Car Dual USB Charger 3.4A",
     description: "In-car charger with two USB ports. Works with iPhone and Android cables.",
-    price: 10,
+    price: 12,
     category: "Chargers",
     stock: 90,
     featured: false,
@@ -251,7 +251,7 @@ const seedCatalog = [
   {
     name: "Samsung 25W Super Fast Charger",
     description: "Official-style Samsung fast charger with USB-C cable. Charges Galaxy in minutes.",
-    price: 18,
+    price: 22,
     category: "Chargers",
     stock: 75,
     featured: false,
@@ -259,7 +259,7 @@ const seedCatalog = [
   {
     name: "Apple 20W USB-C Power Adapter",
     description: "Fast charge for iPhone and iPad. Original-spec 20W USB-C wall adapter.",
-    price: 22,
+    price: 28,
     category: "Chargers",
     stock: 65,
     featured: true,
@@ -267,7 +267,7 @@ const seedCatalog = [
   {
     name: "3-in-1 Wireless Charging Pad",
     description: "Charge phone, earbuds, and watch on one pad. 15W fast wireless charging.",
-    price: 28,
+    price: 35,
     category: "Chargers",
     stock: 55,
     featured: false,
@@ -275,7 +275,7 @@ const seedCatalog = [
   {
     name: "10000mAh Power Bank — USB-C PD",
     description: "Slim portable battery. 10000mAh capacity, 18W fast charge in and out.",
-    price: 25,
+    price: 32,
     category: "Chargers",
     stock: 80,
     featured: true,
@@ -283,7 +283,7 @@ const seedCatalog = [
   {
     name: "3-in-1 Charging Cable Kit",
     description: "One cable with Lightning, USB-C, and Micro-USB tips. 1.2m braided cord.",
-    price: 15,
+    price: 18,
     category: "Chargers",
     stock: 100,
     featured: false,
@@ -293,7 +293,7 @@ const seedCatalog = [
   {
     name: "Wired Earphones with Mic — 3.5mm",
     description: "Basic in-ear earphones. Inline mic and remote, compatible with most phones.",
-    price: 8,
+    price: 10,
     category: "Earphones & Earbuds",
     stock: 150,
     featured: false,
@@ -301,7 +301,7 @@ const seedCatalog = [
   {
     name: "Sony MDR-E9LP Wired Earphones",
     description: "Lightweight Sony earphones. 13.5mm drivers, comfortable fit, clear sound.",
-    price: 15,
+    price: 18,
     category: "Earphones & Earbuds",
     stock: 80,
     featured: false,
@@ -309,7 +309,7 @@ const seedCatalog = [
   {
     name: "Oraimo FreePods Lite Earbuds",
     description: "Budget true wireless earbuds. Touch controls, 20-hour total battery.",
-    price: 20,
+    price: 25,
     category: "Earphones & Earbuds",
     stock: 70,
     featured: true,
@@ -317,7 +317,7 @@ const seedCatalog = [
   {
     name: "Apple EarPods — Lightning",
     description: "Classic Apple wired earphones with Lightning connector and built-in remote.",
-    price: 25,
+    price: 32,
     category: "Earphones & Earbuds",
     stock: 60,
     featured: false,
@@ -325,7 +325,7 @@ const seedCatalog = [
   {
     name: "Xiaomi Redmi Buds 4 Earbuds",
     description: "Affordable ANC earbuds. 35-hour battery, IP54 rating, clear call quality.",
-    price: 35,
+    price: 42,
     category: "Earphones & Earbuds",
     stock: 55,
     featured: false,
@@ -333,7 +333,7 @@ const seedCatalog = [
   {
     name: "JBL Tune 510BT Wireless Earphones",
     description: "On-ear Bluetooth headphones. JBL Pure Bass, 40-hour battery, foldable design.",
-    price: 45,
+    price: 55,
     category: "Earphones & Earbuds",
     stock: 40,
     featured: false,
@@ -341,7 +341,7 @@ const seedCatalog = [
   {
     name: "Samsung Galaxy Buds FE",
     description: "Samsung wireless earbuds. Active noise cancellation, 8-hour playtime per charge.",
-    price: 85,
+    price: 98,
     category: "Earphones & Earbuds",
     stock: 35,
     featured: true,
@@ -349,7 +349,7 @@ const seedCatalog = [
   {
     name: "Apple AirPods (2nd Gen)",
     description: "Classic Apple AirPods. Easy setup, Siri access, 5-hour listening on one charge.",
-    price: 120,
+    price: 145,
     category: "Earphones & Earbuds",
     stock: 30,
     featured: true,
@@ -357,7 +357,7 @@ const seedCatalog = [
   {
     name: "Apple AirPods Pro (2nd Gen)",
     description: "Premium Apple earbuds. Active noise cancellation, Adaptive Audio, USB-C case.",
-    price: 220,
+    price: 265,
     category: "Earphones & Earbuds",
     stock: 22,
     featured: true,
@@ -367,7 +367,7 @@ const seedCatalog = [
   {
     name: "SanDisk 32GB USB Flash Drive",
     description: "Basic USB 2.0 thumb drive for documents, photos, and file transfers.",
-    price: 8,
+    price: 10,
     category: "Storage",
     stock: 200,
     featured: false,
@@ -375,7 +375,7 @@ const seedCatalog = [
   {
     name: "SanDisk 64GB USB 3.0 Flash Drive",
     description: "Fast USB 3.0 drive. Transfer movies and backups quickly on any PC.",
-    price: 12,
+    price: 15,
     category: "Storage",
     stock: 150,
     featured: false,
@@ -383,7 +383,7 @@ const seedCatalog = [
   {
     name: "Kingston 128GB USB Flash Drive",
     description: "High-capacity USB 3.2 drive. Reliable storage for work and school files.",
-    price: 18,
+    price: 22,
     category: "Storage",
     stock: 100,
     featured: true,
@@ -391,7 +391,7 @@ const seedCatalog = [
   {
     name: "Samsung 256GB microSD Card",
     description: "Expand phone or camera storage. U3 speed class, up to 130MB/s read.",
-    price: 22,
+    price: 28,
     category: "Storage",
     stock: 90,
     featured: false,
@@ -399,7 +399,7 @@ const seedCatalog = [
   {
     name: "32GB OTG USB for Android Phones",
     description: "Dual USB and micro-USB/OTG drive. Move files between phone and PC easily.",
-    price: 10,
+    price: 12,
     category: "Storage",
     stock: 120,
     featured: false,
@@ -407,7 +407,7 @@ const seedCatalog = [
   {
     name: "SanDisk 1TB External HDD",
     description: "Portable hard drive for backups. USB 3.0, slim design, plug-and-play.",
-    price: 55,
+    price: 68,
     category: "Storage",
     stock: 45,
     featured: true,
@@ -415,7 +415,7 @@ const seedCatalog = [
   {
     name: "Samsung T7 500GB Portable SSD",
     description: "Fast external SSD. Up to 1050MB/s read, USB-C, shock-resistant metal body.",
-    price: 65,
+    price: 82,
     category: "Storage",
     stock: 38,
     featured: false,
@@ -425,7 +425,7 @@ const seedCatalog = [
   {
     name: "Selfie Ring Light Clip",
     description: "Clip-on LED ring light for video calls and selfies. 3 brightness levels.",
-    price: 12,
+    price: 15,
     category: "Gadgets",
     stock: 80,
     featured: false,
@@ -433,7 +433,7 @@ const seedCatalog = [
   {
     name: "Phone Pop Socket Grip",
     description: "Collapsible phone grip and stand. Better hold for texting and watching videos.",
-    price: 5,
+    price: 7,
     category: "Gadgets",
     stock: 200,
     featured: false,
@@ -441,7 +441,7 @@ const seedCatalog = [
   {
     name: "Bluetooth Remote Shutter",
     description: "Wireless camera button for selfies and group photos. Pairs with iPhone and Android.",
-    price: 8,
+    price: 10,
     category: "Gadgets",
     stock: 90,
     featured: false,
@@ -449,7 +449,7 @@ const seedCatalog = [
   {
     name: "Phone Tripod Stand",
     description: "Adjustable mini tripod with phone clip. Great for TikTok, vlogs, and video calls.",
-    price: 18,
+    price: 22,
     category: "Gadgets",
     stock: 55,
     featured: true,
@@ -457,7 +457,7 @@ const seedCatalog = [
   {
     name: "USB-C to HDMI Adapter",
     description: "Mirror your phone or laptop to a TV or monitor. Plug-and-play, no drivers needed.",
-    price: 14,
+    price: 18,
     category: "Gadgets",
     stock: 65,
     featured: false,
@@ -465,7 +465,7 @@ const seedCatalog = [
   {
     name: "Tempered Glass Screen Protector (2-Pack)",
     description: "Universal phone screen protectors. Easy install kit included.",
-    price: 6,
+    price: 8,
     category: "Gadgets",
     stock: 250,
     featured: false,
@@ -473,7 +473,7 @@ const seedCatalog = [
   {
     name: "Silicone Phone Case — Universal Fit",
     description: "Soft flexible case with raised edges. Available for most popular phone sizes.",
-    price: 9,
+    price: 11,
     category: "Gadgets",
     stock: 180,
     featured: false,
@@ -481,7 +481,7 @@ const seedCatalog = [
   {
     name: "Mini USB Desk Fan",
     description: "Quiet personal fan powered by USB. Perfect for desk, bedside, or travel.",
-    price: 15,
+    price: 18,
     category: "Gadgets",
     stock: 70,
     featured: false,
@@ -489,7 +489,7 @@ const seedCatalog = [
   {
     name: "LED Desk Lamp — USB Powered",
     description: "Adjustable gooseneck lamp with 3 color modes. Plugs into laptop or power bank.",
-    price: 16,
+    price: 20,
     category: "Gadgets",
     stock: 60,
     featured: false,
@@ -497,7 +497,7 @@ const seedCatalog = [
   {
     name: "Smartwatch Silicone Band",
     description: "Replacement strap for 38–44mm smartwatches. Sweat-proof and comfortable.",
-    price: 11,
+    price: 14,
     category: "Gadgets",
     stock: 85,
     featured: false,
@@ -506,5 +506,5 @@ const seedCatalog = [
 
 export const seedProducts = seedCatalog.map((product) => ({
   ...product,
-  image: productImageUrl(product.name),
+  image: productImageUrl(product.name, product.category),
 }));

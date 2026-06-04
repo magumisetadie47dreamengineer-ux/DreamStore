@@ -1,6 +1,7 @@
 "use client";
 
 import ProductImage from "./ProductImage";
+import { formatPrice } from "@/lib/formatPrice";
 import { useCallback, useEffect, useState } from "react";
 
 const ENTER_DIRS = ["left", "right", "top", "bottom", "tl", "br"];
@@ -46,7 +47,7 @@ export default function HeroProductBackdrop({ products }) {
   if (count === 1) {
     return (
       <div
-        className="product-photo pointer-events-none absolute inset-0 overflow-hidden"
+        className="product-photo product-photo--ambient pointer-events-none absolute inset-0 overflow-hidden"
         aria-hidden
       >
         <ProductImage
@@ -83,7 +84,7 @@ export default function HeroProductBackdrop({ products }) {
           return (
             <div
               key={p._id}
-              className={`product-photo absolute inset-0 ${animClass}`}
+              className={`product-photo product-photo--ambient absolute inset-0 ${animClass}`}
               style={{ zIndex: isActive ? 2 : 1 }}
             >
               <ProductImage
@@ -112,6 +113,18 @@ export default function HeroProductBackdrop({ products }) {
       {/* Dark overlay — B&W UI text readable; photos keep true color underneath */}
       <div className="absolute inset-0 z-[4] bg-gradient-to-b from-base-100/75 via-base-100/55 to-base-100/85" />
       <div className="absolute inset-0 z-[4] bg-[radial-gradient(ellipse_at_center,transparent_0%,oklch(8%_0_0_/_0.35)_100%)]" />
+
+      <div className="absolute bottom-6 left-4 right-4 z-[5] sm:left-8 sm:right-auto sm:max-w-md">
+        <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-primary/90">
+          {products[active]?.category}
+        </p>
+        <p className="mt-1 text-sm sm:text-base font-semibold text-base-content line-clamp-2">
+          {products[active]?.name}
+        </p>
+        <p className="mt-1 text-sm font-mono text-primary">
+          {formatPrice(products[active]?.price ?? 0)}
+        </p>
+      </div>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import BrandLogo from "@/components/BrandLogo";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -93,9 +94,9 @@ function RegisterForm() {
   return (
     <div className="grid min-h-[60vh] place-items-center px-4 py-12">
       <div className="w-full max-w-md rounded-sm border border-base-content/10 bg-base-200 p-8">
-        <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-primary">
-          {brand.dreamChaser}
-        </p>
+        <div className="flex justify-center mb-6">
+          <BrandLogo variant="full" size="lg" />
+        </div>
         <h1 className="text-2xl font-bold mt-1">Create account</h1>
         <p className="mt-2 text-sm italic text-primary/90">
           &ldquo;{brand.mantra}&rdquo;

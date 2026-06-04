@@ -4,10 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm run generate-product-images && next build",
     "start": "next start",
     "lint": "eslint",
-    "seed": "npx tsx scripts/seed.ts",
+    "generate-product-images": "npx tsx scripts/generate-product-images.ts",
+    "seed": "npm run generate-product-images && npx tsx scripts/seed.ts",
     "promote-admin": "npx tsx scripts/promote-admin.ts",
     "ensure-public": "npx vercel project protection disable dreamstore --sso"
   },

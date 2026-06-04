@@ -1,3 +1,4 @@
+import BrandLogo from "@/components/BrandLogo";
 import Link from "next/link";
 import { brand } from "@/lib/brand";
 import ContactInfo from "./ContactInfo";
@@ -17,17 +18,7 @@ export default function Footer() {
 
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
           <aside className="lg:col-span-1">
-            <div className="flex items-center gap-2">
-              <span className="flex h-10 w-10 items-center justify-center rounded-sm border border-primary font-mono text-sm font-bold text-primary">
-                DC
-              </span>
-              <div>
-                <p className="font-bold text-lg tracking-tight">{brand.name}</p>
-                <p className="text-[10px] uppercase tracking-[0.2em] text-primary">
-                  {brand.dreamChaser}
-                </p>
-              </div>
-            </div>
+            <BrandLogo variant="full" size="md" />
             <p className="mt-4 text-sm text-base-content/55 leading-relaxed">
               {brand.tagline}
             </p>
