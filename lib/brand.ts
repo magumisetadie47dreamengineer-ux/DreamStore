@@ -1,6 +1,9 @@
+import { productionSiteUrl } from "@/lib/site";
+
 export const brand = {
   name: "DreamStore",
   shortName: "DreamStore",
+  siteUrl: productionSiteUrl,
   dreamChaser: "Dream Chaser",
   mantra: "Chase the vision. Build the future.",
   mantraSub:

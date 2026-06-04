@@ -17,8 +17,8 @@ Get-Content ".env" | ForEach-Object {
   }
 }
 
-Write-Host "Linking project (first time may prompt)..."
-npx vercel link --yes 2>&1 | Out-Host
+Write-Host "Linking to existing Vercel project: dreamstore"
+npx vercel link --project dreamstore --yes 2>&1 | Out-Host
 
 $vars = @("DATABASE_URI", "STRIPE_SECRET_KEY", "NEXT_PUBLIC_BASE_URL", "ADMIN_EMAIL")
 foreach ($name in $vars) {
@@ -43,10 +43,8 @@ $deployUrl = (npx vercel ls --prod 2>&1 | Select-String "https://dreamstore-\S+\
 if ($deployUrl) {
   Write-Host "Pointing aliases to $deployUrl"
   npx vercel alias set $deployUrl dreamstore-inky.vercel.app 2>&1 | Out-Host
-  npx vercel alias set $deployUrl database-inky.vercel.app 2>&1 | Out-Host
 }
 
 Write-Host ""
 Write-Host "DreamStore is live at:"
 Write-Host "  $productionUrl"
-Write-Host "  https://database-inky.vercel.app"

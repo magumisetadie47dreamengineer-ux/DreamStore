@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { productionSiteUrl } from "@/lib/site";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -13,6 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_BASE_URL?.replace(/\/$/, "") ?? productionSiteUrl,
+  ),
   title: "DreamStore | Chase the vision. Build the future.",
   description:
     "DreamStore for dream chasers — laptops, gadgets, and gear to build your setup.",

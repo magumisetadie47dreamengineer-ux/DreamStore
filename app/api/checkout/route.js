@@ -1,3 +1,4 @@
+import { getSiteUrl } from "@/lib/site";
 import { getShippingCost } from "@/lib/shipping";
 import { getStripe } from "@/lib/stripe";
 import { NextResponse } from "next/server";
@@ -21,7 +22,9 @@ export async function POST(request) {
     }
 
     const baseUrl =
-      process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+      process.env.NODE_ENV === "production"
+        ? getSiteUrl()
+        : process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
     const subtotal = items.reduce(
       (sum, item) => sum + item.price * item.quantity,
