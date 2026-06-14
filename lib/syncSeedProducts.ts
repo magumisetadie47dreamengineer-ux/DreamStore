@@ -46,6 +46,14 @@ export async function syncSeedProducts(options?: { force?: boolean }) {
   const force = options?.force ?? false;
   const now = Date.now();
 
+  if (!force) {
+    const existing = await Product.countDocuments();
+    if (existing > 0) {
+      lastSyncAt = now;
+      return { inserted: 0, imagesUpdated: 0, skipped: true };
+    }
+  }
+
   if (!force && now - lastSyncAt < SYNC_INTERVAL_MS) {
     return { inserted: 0, imagesUpdated: 0, skipped: true };
   }

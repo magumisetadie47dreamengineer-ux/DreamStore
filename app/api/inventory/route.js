@@ -5,7 +5,6 @@ import {
 } from "@/lib/inventory/branches";
 import { logStockMovement } from "@/lib/inventory/logMovement";
 import { syncProductStockFromBranches } from "@/lib/inventory/syncStock";
-import { syncSeedProducts } from "@/lib/syncSeedProducts";
 import dbConnect from "@/lib/mongoose";
 import BranchInventory from "@/mongo/models/BranchInventory";
 import Product from "@/mongo/models/Product";
@@ -32,12 +31,6 @@ export async function GET(request) {
     const lowStock = searchParams.get("lowStock") === "true";
 
     await dbConnect();
-
-    try {
-      await syncSeedProducts();
-    } catch (syncErr) {
-      console.error("syncSeedProducts:", syncErr);
-    }
 
     try {
       await ensureBranchInventory();

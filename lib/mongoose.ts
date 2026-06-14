@@ -54,9 +54,10 @@ function isRetryableConnectError(error: unknown): boolean {
 async function connectMongoose() {
   dns.setServers(["8.8.8.8", "8.8.4.4", "1.1.1.1"]);
 
-  // Small pool per serverless instance — many devices/tabs must not exhaust Atlas.
+  // Stay under Vercel Hobby's ~10s function limit (connect + query).
   const options = {
-    serverSelectionTimeoutMS: 15000,
+    serverSelectionTimeoutMS:
+      process.env.NODE_ENV === "production" ? 8000 : 15000,
     maxPoolSize: 5,
     minPoolSize: 0,
   };

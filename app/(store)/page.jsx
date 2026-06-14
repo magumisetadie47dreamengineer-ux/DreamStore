@@ -13,6 +13,7 @@ export default async function HomePage() {
   const allProducts = await getProductsServer();
   const featured = allProducts.filter((p) => p.featured);
   const backdropProducts = featured.length > 0 ? featured : allProducts;
+  const catalogUnavailable = allProducts.length === 0;
 
   return (
     <div>
@@ -56,6 +57,15 @@ export default async function HomePage() {
       </section>
 
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 border-b border-base-content/5">
+        {catalogUnavailable ? (
+          <div className="rounded-sm border border-warning/30 bg-warning/10 p-6 text-center">
+            <p className="font-medium">Catalog is temporarily unavailable.</p>
+            <p className="text-sm text-base-content/60 mt-2">
+              Please refresh in a moment — our store is reconnecting to the database.
+            </p>
+          </div>
+        ) : (
+          <>
         <div className="mb-10 text-center">
           <p className="text-xs font-mono uppercase tracking-[0.25em] text-primary mb-2">
             Featured
@@ -89,6 +99,8 @@ export default async function HomePage() {
             ))}
           </div>
         </div>
+          </>
+        )}
       </section>
 
       <ContactSection />
