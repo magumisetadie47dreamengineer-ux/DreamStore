@@ -57,36 +57,22 @@ async function connectMongoose() {
   // Stay under Vercel Hobby's ~10s function limit (connect + query).
   const options = {
     serverSelectionTimeoutMS:
-      process.env.NODE_ENV === "production" ? 8000 : 15000,
+      process.env.NODE_ENV === "production" ? 5000 : 15000,
     maxPoolSize: 5,
     minPoolSize: 0,
   };
 
-  let connectionUri = uri;
   if (uri.startsWith("mongodb+srv://")) {
     try {
-      connectionUri = await resolveMongoUri(uri);
+      return await mongoose.connect(uri, options);
     } catch (error) {
-      if (!isSrvDnsError(error)) throw error;
+      if (!isRetryableConnectError(error)) throw error;
+      const resolvedUri = await resolveMongoUri(uri);
+      return mongoose.connect(resolvedUri, options);
     }
   }
 
-  try {
-    return await mongoose.connect(connectionUri, options);
-  } catch (error) {
-    if (!uri.startsWith("mongodb+srv://") || !isRetryableConnectError(error)) {
-      throw error;
-    }
-
-    const fallbackUri =
-      connectionUri === uri ? await resolveMongoUri(uri) : uri;
-
-    if (fallbackUri === connectionUri) {
-      throw error;
-    }
-
-    return mongoose.connect(fallbackUri, options);
-  }
+  return mongoose.connect(uri, options);
 }
 
 async function dbConnect() {

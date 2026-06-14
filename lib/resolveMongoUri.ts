@@ -36,7 +36,7 @@ async function discoverReplicaSet(
 
   try {
     const client = await MongoClient.connect(probeUri, {
-      serverSelectionTimeoutMS: 10000,
+      serverSelectionTimeoutMS: 3000,
     });
     const hello = await client.db("admin").command({ hello: 1 });
     await client.close();
