@@ -2,14 +2,8 @@ import { Suspense } from "react";
 import ProductShop from "@/components/store/ProductShop";
 import SearchBar from "@/components/store/SearchBar";
 import { brand } from "@/lib/brand";
-import { getProductsServer } from "@/lib/products/getProductsServer";
 
-export const dynamic = "force-dynamic";
-
-export default async function ProductsPage() {
-  const products = await getProductsServer();
-  const categories = [...new Set(products.map((p) => p.category))];
-
+export default function ProductsPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
       <div className="rounded-sm border border-base-content/10 bg-base-200 p-8 mb-10 tech-grid-bg">
@@ -36,7 +30,7 @@ export default async function ProductsPage() {
           </p>
         }
       >
-        <ProductShop products={products} categories={categories} />
+        <ProductShop products={[]} categories={[]} />
       </Suspense>
     </div>
   );
