@@ -20,7 +20,16 @@ Get-Content ".env" | ForEach-Object {
 Write-Host "Linking to existing Vercel project: dreamstore"
 npx vercel link --project dreamstore --yes 2>&1 | Out-Host
 
-$vars = @("DATABASE_URI", "STRIPE_SECRET_KEY", "NEXT_PUBLIC_BASE_URL", "ADMIN_EMAIL")
+$vars = @(
+  "DATABASE_URI",
+  "STRIPE_SECRET_KEY",
+  "NEXT_PUBLIC_BASE_URL",
+  "ADMIN_EMAIL",
+  "PESEPAY_INTEGRATION_KEY",
+  "PESEPAY_ENCRYPTION_KEY",
+  "PESEPAY_ENV",
+  "PESEPAY_CURRENCY"
+)
 foreach ($name in $vars) {
   $val = [Environment]::GetEnvironmentVariable($name, "Process")
   if (-not $val) { continue }
