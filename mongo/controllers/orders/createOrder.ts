@@ -9,11 +9,22 @@ export type OrderItemInput = {
   quantity: number;
 };
 
+export type CreateOrderPayment = {
+  stripeSessionId?: string;
+  method?: string;
+  reference?: string;
+};
+
 export async function createOrder(
   userId: string,
   items: OrderItemInput[],
-  stripeSessionId?: string
+  payment?: CreateOrderPayment | string
 ) {
+  const paymentDetails =
+    typeof payment === "string" ? { stripeSessionId: payment } : payment;
+  const isPaid = Boolean(
+    paymentDetails?.stripeSessionId || paymentDetails?.reference
+  );
   await dbConnect();
 
   const primaryBranch = await getPrimaryBranch();
@@ -47,9 +58,15 @@ export async function createOrder(
     subtotal,
     shipping,
     total,
-    status: stripeSessionId ? "paid" : "pending",
+    status: isPaid ? "paid" : "pending",
     branchId: primaryBranch._id,
-    ...(stripeSessionId ? { stripeSessionId } : {}),
+    ...(paymentDetails?.stripeSessionId
+      ? { stripeSessionId: paymentDetails.stripeSessionId }
+      : {}),
+    ...(paymentDetails?.method ? { paymentMethod: paymentDetails.method } : {}),
+    ...(paymentDetails?.reference
+      ? { paynowReference: paymentDetails.reference }
+      : {}),
   });
 
   for (const item of orderItems) {

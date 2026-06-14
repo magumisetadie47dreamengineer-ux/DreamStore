@@ -4,12 +4,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { formatPrice } from "@/lib/formatPrice";
-import {
-  getOrderTotal,
-  getShippingCost,
-} from "@/lib/shipping";
+import { getOrderTotal, getShippingCost } from "@/lib/shipping";
 import { useAuthStore } from "@/store/authStore";
 import { useCartStore } from "@/store/cartStore";
+
+const PESEPAY_REFERENCE_KEY = "pesepay-reference";
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -18,7 +17,7 @@ export default function CheckoutPage() {
   const items = useCartStore((s) => s.items);
   const getSubtotal = useCartStore((s) => s.getSubtotal);
   const [hydrated, setHydrated] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loadingMethod, setLoadingMethod] = useState(null);
   const [error, setError] = useState("");
 
   useEffect(() => setHydrated(true), []);
@@ -29,12 +28,15 @@ export default function CheckoutPage() {
     }
   }, [hydrated, isAuthenticated, router]);
 
-  const handleStripeCheckout = async () => {
+  const startCheckout = async (method) => {
     setError("");
-    setLoading(true);
+    setLoadingMethod(method);
+
+    const endpoint =
+      method === "pesepay" ? "/api/checkout/pesepay" : "/api/checkout";
 
     try {
-      const res = await fetch("/api/checkout", {
+      const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -52,14 +54,22 @@ export default function CheckoutPage() {
       const data = await res.json();
 
       if (res.ok && data.url) {
+        if (method === "pesepay") {
+          if (data.referenceNumber) {
+            sessionStorage.setItem(PESEPAY_REFERENCE_KEY, data.referenceNumber);
+          }
+          if (data.checkoutToken) {
+            sessionStorage.setItem("pesepay-token", data.checkoutToken);
+          }
+        }
         window.location.href = data.url;
       } else {
         setError(data.message || "Failed to start checkout");
-        setLoading(false);
+        setLoadingMethod(null);
       }
     } catch {
       setError("Something went wrong. Please try again.");
-      setLoading(false);
+      setLoadingMethod(null);
     }
   };
 
@@ -68,6 +78,7 @@ export default function CheckoutPage() {
   const subtotal = getSubtotal();
   const shipping = getShippingCost(subtotal);
   const total = getOrderTotal(subtotal);
+  const loading = loadingMethod !== null;
 
   return (
     <div className="mx-auto max-w-lg px-4 py-12 sm:px-6">
@@ -130,17 +141,30 @@ export default function CheckoutPage() {
             )}
 
             <p className="text-xs text-base-content/40 mt-3">
-              Secure payment powered by Stripe. You will be redirected to
-              complete your purchase.
+              Choose a payment method below. You will be redirected to complete
+              your purchase securely.
             </p>
 
             <button
               type="button"
-              onClick={handleStripeCheckout}
+              onClick={() => startCheckout("pesepay")}
               disabled={loading}
               className="btn btn-primary btn-block mt-4 rounded-sm font-semibold"
             >
-              {loading ? (
+              {loadingMethod === "pesepay" ? (
+                <span className="loading loading-spinner loading-sm" />
+              ) : (
+                "Pay with Pesepay"
+              )}
+            </button>
+
+            <button
+              type="button"
+              onClick={() => startCheckout("stripe")}
+              disabled={loading}
+              className="btn btn-outline btn-block mt-2 rounded-sm font-semibold"
+            >
+              {loadingMethod === "stripe" ? (
                 <span className="loading loading-spinner loading-sm" />
               ) : (
                 "Pay with Stripe"

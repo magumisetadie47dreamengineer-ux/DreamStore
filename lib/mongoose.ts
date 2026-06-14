@@ -29,7 +29,26 @@ if (!global.mongooseCache) {
 
 function isSrvDnsError(error: unknown): boolean {
   const message = error instanceof Error ? error.message : String(error);
-  return message.includes("querySrv") || message.includes("ECONNREFUSED");
+  return (
+    message.includes("querySrv") ||
+    message.includes("ECONNREFUSED") ||
+    message.includes("ENOTFOUND") ||
+    message.includes("ETIMEOUT")
+  );
+}
+
+function isRetryableConnectError(error: unknown): boolean {
+  const message = error instanceof Error ? error.message : String(error);
+  const labels =
+    error instanceof Error && "errorLabels" in error
+      ? (error as { errorLabels?: Set<string> }).errorLabels
+      : undefined;
+  return (
+    isSrvDnsError(error) ||
+    message.includes("Server selection timed out") ||
+    message.includes("connection") && message.includes("closed") ||
+    labels?.has("RetryableError") === true
+  );
 }
 
 async function connectMongoose() {
@@ -42,20 +61,41 @@ async function connectMongoose() {
     minPoolSize: 0,
   };
 
-  try {
-    return await mongoose.connect(uri, options);
-  } catch (error) {
-    if (uri.startsWith("mongodb+srv://") && isSrvDnsError(error)) {
-      const resolvedUri = await resolveMongoUri(uri);
-      return mongoose.connect(resolvedUri, options);
+  let connectionUri = uri;
+  if (uri.startsWith("mongodb+srv://")) {
+    try {
+      connectionUri = await resolveMongoUri(uri);
+    } catch (error) {
+      if (!isSrvDnsError(error)) throw error;
     }
-    throw error;
+  }
+
+  try {
+    return await mongoose.connect(connectionUri, options);
+  } catch (error) {
+    if (!uri.startsWith("mongodb+srv://") || !isRetryableConnectError(error)) {
+      throw error;
+    }
+
+    const fallbackUri =
+      connectionUri === uri ? await resolveMongoUri(uri) : uri;
+
+    if (fallbackUri === connectionUri) {
+      throw error;
+    }
+
+    return mongoose.connect(fallbackUri, options);
   }
 }
 
 async function dbConnect() {
-  if (cached.conn) {
+  if (cached.conn && mongoose.connection.readyState === 1) {
     return cached.conn;
+  }
+
+  if (cached.conn && mongoose.connection.readyState !== 1) {
+    cached.conn = null;
+    cached.promise = null;
   }
 
   if (!cached.promise) {
