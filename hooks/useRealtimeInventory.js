@@ -17,42 +17,68 @@ export function useRealtimeInventory(branchId, options = {}) {
   const [updatedAt, setUpdatedAt] = useState(null);
   const [loading, setLoading] = useState(true);
   const [live, setLive] = useState(false);
-  const userId = useAuthStore((s) => s.user?.id);
+  const [error, setError] = useState("");
+  const hasHydrated = useAuthStore((s) => s._hasHydrated);
+  const user = useAuthStore((s) => s.user);
+  const userId = user?.id ?? user?._id;
 
   const applyPayload = useCallback((data) => {
-    if (data?.rows) {
+    if (Array.isArray(data?.rows)) {
       setRows(data.rows);
-      setUpdatedAt(data.updatedAt);
+      setUpdatedAt(data.updatedAt ?? Date.now());
       setLive(true);
+      setError("");
     }
     setLoading(false);
   }, []);
 
   const fetchInventory = useCallback(async () => {
+    if (!userId) {
+      setLoading(false);
+      setLive(false);
+      setError("Sign in again to view live stock.");
+      return;
+    }
+
     try {
       const qs = new URLSearchParams();
       if (branchId) qs.set("branchId", branchId);
       const res = await apiFetch(`/api/inventory?${qs.toString()}`);
+      const data = await res.json().catch(() => ({}));
+
       if (res.ok) {
-        applyPayload(await res.json());
-      } else {
-        setLoading(false);
-        setLive(false);
+        applyPayload(data);
+        return;
       }
+
+      setLoading(false);
+      setLive(false);
+      setError(data.message || `Could not load inventory (${res.status})`);
     } catch {
       setLoading(false);
       setLive(false);
+      setError("Network error loading inventory.");
     }
-  }, [branchId, applyPayload]);
+  }, [branchId, applyPayload, userId]);
 
   useEffect(() => {
-    if (!userId || !enabled) {
+    if (!hasHydrated) return;
+
+    if (!enabled) {
       setLive(false);
+      return;
+    }
+
+    if (!userId) {
+      setLoading(false);
+      setLive(false);
+      setError("Sign in again to view live stock.");
       return;
     }
 
     setLoading(true);
     setLive(false);
+    setError("");
 
     const runIfVisible = () => {
       if (typeof document !== "undefined" && document.hidden) return;
@@ -72,7 +98,7 @@ export function useRealtimeInventory(branchId, options = {}) {
       clearInterval(interval);
       document.removeEventListener("visibilitychange", onVisibility);
     };
-  }, [branchId, userId, enabled, fetchInventory]);
+  }, [branchId, userId, enabled, hasHydrated, fetchInventory]);
 
-  return { rows, updatedAt, loading, live, refresh: fetchInventory };
+  return { rows, updatedAt, loading, live, error, refresh: fetchInventory };
 }

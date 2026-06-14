@@ -61,7 +61,7 @@ export default function AccountsDashboard() {
   });
   const [preStockMsg, setPreStockMsg] = useState("");
 
-  const { rows, updatedAt, loading, live, refresh } = useRealtimeInventory(
+  const { rows, updatedAt, loading, live, error, refresh } = useRealtimeInventory(
     branchId || undefined,
     { enabled: tab === "inventory" }
   );
@@ -273,6 +273,30 @@ export default function AccountsDashboard() {
         <>
           {loading ? (
             <p className="text-base-content/50">Loading inventory…</p>
+          ) : error ? (
+            <div className="rounded-sm border border-error/30 bg-error/10 p-4 text-sm">
+              <p className="font-medium text-error">{error}</p>
+              <button
+                type="button"
+                className="btn btn-outline btn-sm mt-3 rounded-sm"
+                onClick={refresh}
+              >
+                Try again
+              </button>
+            </div>
+          ) : rows.length === 0 ? (
+            <p className="text-base-content/50">
+              No branch stock yet for this branch. Stock is seeded from products
+              on first load — try{" "}
+              <button
+                type="button"
+                className="link link-primary"
+                onClick={refresh}
+              >
+                refreshing
+              </button>
+              .
+            </p>
           ) : (
             <div className="overflow-x-auto rounded-sm border border-base-content/10">
               <table className="table table-sm">

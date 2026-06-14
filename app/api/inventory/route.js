@@ -1,10 +1,26 @@
 import { requireAuth } from "@/lib/auth/apiAuth";
+import {
+  ensureDefaultBranch,
+  seedBranchInventoryFromProducts,
+} from "@/lib/inventory/branches";
 import { logStockMovement } from "@/lib/inventory/logMovement";
 import { syncProductStockFromBranches } from "@/lib/inventory/syncStock";
+import { syncSeedProducts } from "@/lib/syncSeedProducts";
 import dbConnect from "@/lib/mongoose";
 import BranchInventory from "@/mongo/models/BranchInventory";
 import Product from "@/mongo/models/Product";
 import { NextResponse } from "next/server";
+
+async function ensureBranchInventory() {
+  const branch = await ensureDefaultBranch();
+  const invCount = await BranchInventory.countDocuments({
+    branchId: branch._id,
+  });
+  if (invCount === 0) {
+    await seedBranchInventoryFromProducts(String(branch._id));
+  }
+  return branch;
+}
 
 export async function GET(request) {
   const auth = await requireAuth(request, ["admin", "accounts"]);
@@ -16,6 +32,18 @@ export async function GET(request) {
     const lowStock = searchParams.get("lowStock") === "true";
 
     await dbConnect();
+
+    try {
+      await syncSeedProducts();
+    } catch (syncErr) {
+      console.error("syncSeedProducts:", syncErr);
+    }
+
+    try {
+      await ensureBranchInventory();
+    } catch (seedErr) {
+      console.error("Branch inventory seed:", seedErr);
+    }
 
     const filter = {};
     if (branchId) filter.branchId = branchId;
